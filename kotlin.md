@@ -51,3 +51,11 @@ arrayList.add(0, "Changwon")
 val map1 = mapOf(Pair("SEO", "Seoul"), Pair("TOK", "Tokyo"))
 val map2 = mapOf("SEO" to  "Seoul", "TOK" to  "Tokyo")
 ```
+
+* 요소를 수정할 수 있는 맵 함수 정의
+```
+val mutableMap = mutableMapOf(Pair("SEO", "Seoul"), Pair("TOK", "Tokyo"))
+mutableMap.put("MTV", "Mountain View")
+mutableMap.set("SEO", "Changwon")
+mutableMap["SEO"] = "Changwon"
+```
