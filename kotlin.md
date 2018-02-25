@@ -43,3 +43,11 @@ val arrayList = arrayListOf<String>("Seoul", "Tokyo", "San Francisco")
 arrayList.set(0, "Masan")
 arrayList.add(0, "Changwon")
 ```
+
+* 읽기 전용 맵을 생성하는 함수 정의
+  * map1 - Pair를 직접 사용한 예
+  * map2 - 표준 라이브러리 내 함수인 to()를 사용하여 직관적으로 표현 할 수 있다.
+```
+val map1 = mapOf(Pair("SEO", "Seoul"), Pair("TOK", "Tokyo"))
+val map2 = mapOf("SEO" to  "Seoul", "TOK" to  "Tokyo")
+```
