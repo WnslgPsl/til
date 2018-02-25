@@ -1,7 +1,8 @@
 #TIL
-## Today I Learned
+>**Today I Learned**
 
-
+오늘 하루도 많은 분들에게 많은 것을 배웁니다.
+기록하는 습관을 가지는 레포입니다.
 
 
 
