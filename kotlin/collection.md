@@ -1,5 +1,6 @@
 # Collection 예제
 
+## Array
 * 특정 타입을 갖는 빈 배열 반환
 ```
 val emptyStringArray = emptyArray<String>()
@@ -15,6 +16,7 @@ val emptyStringArray = emptyArray<String>()
 val nullStoreableArray = arrayOfNulls<String>(3)
 ```
 
+## list
 * 인자로 받는 값을 포함하는 읽기 전용 리스트 반환
 ```
 val cities = listOf<String>("Seoul", "Tokyo", "San Francisco")
@@ -44,6 +46,7 @@ arrayList.set(0, "Masan")
 arrayList.add(0, "Changwon")
 ```
 
+## map
 * 읽기 전용 맵을 생성하는 함수 정의
   * map1 - Pair를 직접 사용한 예
   * map2 - 표준 라이브러리 내 함수인 to()를 사용하여 직관적으로 표현 할 수 있다.
