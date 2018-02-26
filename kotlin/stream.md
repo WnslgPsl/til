@@ -159,7 +159,7 @@ cities.distinct()
 ```
 
 * 중복된 항목을 판단할 때, 도시 이름의 길이를 판단 기준으로 사용
-```
+```kotlin
 val cities = listOf("Seoul", "Tokyo", "Mountain View", "Seoul", "Tokyo")
 cities.distinctBy { city -> city.length }
         .forEach { println(it) }
