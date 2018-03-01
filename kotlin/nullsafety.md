@@ -30,8 +30,36 @@ fun findPostalCode(address : String) : PostalCode? {
 
 ## 널 값을 대신하는 방법 : 엘비스(?:)연산자
 
-* 널 값을 허용하지 않는 값 혹은 변수에 널 값을 반환 할 수 있는 함수의 결과를 대입해야 하는 경우,  
+* 널 값을 허용하지 않는 값 혹은 변수에 널 값을 반환 할 수 있는 함수의 결과를 대입해야 하는 경우,</br>
   이에대한 처리를 별도로 해야한다.
 ```kotlin
-ddd
+// foo가 null이 아닐 경우 foo를, null이면 bar를 반환
+foo ?: bar
 ```
+```kotlin
+// 함수가 널 값을 반환하는 경우 PostalCode.NONE 값을 대입한다.
+val postal : PostalCode = findPostalCode("1600 Amphitheatre Pkwy") ?: PostalCode.NONE
+```
+
+* 엘비스 연산자의 예
+```java
+    public Image generateMapImage(String address){
+    
+      PostalCode postal = findPostalCode(address);
+      
+      if(postal == null){
+        return null;
+      }
+      
+      // 지도 이미지 생성
+    }
+```
+```kotlin
+    fun generateMapImage(address: String){
+      val postal = findPostalCode(address) ?: return null
+      
+      // 지도 이미지 생성
+    }
+```
+
+
