@@ -76,5 +76,35 @@ val postal : PostalCode = findPostalCode("1600 Amphitheatre Pkwy") ?: PostalCode
 
 ## 널 값 확인과 처리를 한번에 : 안전한 호출(?.)연산자
 
-* 
+* 널 값을 확인과 값 접근/함수호출을 한번에 할 수 있다.  
+  안전한 호출 연산자는 이 연산자를 사용하는 객체가 널 값이 아닌 경우에  
+  연산자 뒤의 문장을 수행한다. 널 값일 경우에는 뒤의 문장을 수행하지 않고 널 값을 반환한다.  
+  따라서 널 값인 객체의 프로퍼티를 참조하거나 함수를 호출하는 일을 방지할 수 있다.
+```kotlin
+    // bar 가 null이 아닐 경우에만 해당 값을 대입, 그렇지 않은 경우 null을 foo에 대입
+    val foo = bar?.baz
+    
+    // foo가 null이 아닐 경우에만 bar() 호출
+    foo?.bar()
+```
+
+* 엘비스 연산자를 함께 사용하면 널 값을 반환할 때, 대신 사용할 값을 지정할 수 있다.
+```java
+    // java
+    
+    Contact contact = ... // 주소록 항목 객체
+    String line;
+    
+    if(contact.address != null && contact.address.line2 != null) {
+      line = contact.address.line2;
+    }else{
+      line = "No address"
+    }
+```
+```kotlin
+    // kotlin
+    val contact : Contact = ... // 주소록 항목 객체
+    //주소가 없거나 line2가 없을 경우 기본값인 "No address" 반환
+    val line : String = contact.address?.line2 ?: "No address"
+```
 
