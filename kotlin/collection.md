@@ -8,7 +8,7 @@ val emptyStringArray = emptyArray<String>()
 
 * 특정 타입을 갖는 빈 배열 반환
 ```
-val emptyStringArray = emptyArray<String>()
+val emptyStringArray = emptyArray<String>()d
 ```
 
 * 배열 내 각 값들이 null값으로 초기화 되고 인자로 받은 size만큼(3)의 크기를 갖는 배열 반환
