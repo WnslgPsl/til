@@ -105,6 +105,7 @@ val postal : PostalCode = findPostalCode("1600 Amphitheatre Pkwy") ?: PostalCode
     // kotlin
     
     val contact : Contact = ... // 주소록 항목 객체
+    
     //주소가 없거나 line2가 없을 경우 기본값인 "No address" 반환
     val line : String = contact.address?.line2 ?: "No address"
 ```
