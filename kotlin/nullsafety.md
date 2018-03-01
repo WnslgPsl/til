@@ -110,5 +110,7 @@ val postal : PostalCode = findPostalCode("1600 Amphitheatre Pkwy") ?: PostalCode
     val line : String = contact.address?.line2 ?: "No address"
 ```
 
-* ㅇㅇ
+## 안전한 자료형 변환 : as?연산자
+
+
 
