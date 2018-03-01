@@ -22,7 +22,6 @@ val address : String = null  // 오류 : null을 허용하지 않는 값에 null
 fun formatAddress(line1: String, line2: String?, city: String) : String {
   ...
 }
-  
 // 입력한 주소에 해당하는 우편번호를 반환하지만, 검색 결과가 없을 경우 null 반환
 fun findPostalCode(address : String) : PostalCode? {
   ...
