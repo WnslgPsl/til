@@ -41,5 +41,5 @@ val postal : PostalCode = findPostalCode("1600 Amphitheatre Pkwy")
 * 널 값을 허용하지 않는 값 혹은 변수에 널 값을 반환 할 수 있는 함수의 결과를 대입해야 하는 경우  
   이에 대한 처리를 별도로 해야한다. 엘비스 연산자를 사용하면 이를 편리하게 처리할 수 있다.
 ```kotlin
-
+asdf
 ```
