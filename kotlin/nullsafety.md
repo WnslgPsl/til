@@ -43,6 +43,7 @@ val postal : PostalCode = findPostalCode("1600 Amphitheatre Pkwy") ?: PostalCode
 
 * 엘비스 연산자의 예
 ```java
+    //java
     public Image generateMapImage(String address){
     
       PostalCode postal = findPostalCode(address);
@@ -56,6 +57,7 @@ val postal : PostalCode = findPostalCode("1600 Amphitheatre Pkwy") ?: PostalCode
     }
 ```
 ```kotlin
+    //kotlin
     fun generateMapImage(address: String){
       val postal = findPostalCode(address) ?: return null
       
