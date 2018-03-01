@@ -52,6 +52,7 @@ val postal : PostalCode = findPostalCode("1600 Amphitheatre Pkwy") ?: PostalCode
       }
       
       // 지도 이미지 생성
+      ...
     }
 ```
 ```kotlin
@@ -59,7 +60,21 @@ val postal : PostalCode = findPostalCode("1600 Amphitheatre Pkwy") ?: PostalCode
       val postal = findPostalCode(address) ?: return null
       
       // 지도 이미지 생성
+      ...
     }
 ```
 
+* 값을 반환하는 대신 예외가 발생하도록 할 수도 있다.
+```kotlin
+    fun generateMapImage(address: String){
+      val postal = findPostalCode(address) ?: throw IllegalStateException()
+      
+      // 지도 이미지 생성
+      ...
+    }
+```
+
+## 널 값 확인과 처리를 한번에 : 안전한 호출(?.)연산자
+
+* 
 
