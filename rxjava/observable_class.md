@@ -20,7 +20,7 @@ onComplete 이벤트는 단 한 번만 발생하며, 발생한 후에는 더이�
 
 </br>
 ***
-* **인자가 한개인 just() 함수의 마블 다이어그램**
+* ** just() 함수의 마블 다이어그램**
 ![just](/assets/just.c.png)
 ***
 </br>
@@ -33,7 +33,7 @@ onComplete 이벤트는 단 한 번만 발생하며, 발생한 후에는 더이�
         Observable.just(1, 2, 3, 4, 5, 6)
         .subscribe(System.out::println);    
     }
-    ```Java
+
     결과값
     1
     2
@@ -41,5 +41,4 @@ onComplete 이벤트는 단 한 번만 발생하며, 발생한 후에는 더이�
     4
     5
     6
-    ```
 ```
