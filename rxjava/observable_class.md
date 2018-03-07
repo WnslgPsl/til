@@ -9,7 +9,9 @@
 onComplete 이벤트는 단 한 번만 발생하며, 발생한 후에는 더이상 onNext 이벤트가 발생해선 안 된다.
 > * **onError** : Observable에서 어떤 이유로 에러가 발생했음을 알린다.  
 이벤트가 발생하고 나면 onNext 및 onComplete 이벤트가 발생하지 않는다.  
-즉 Observable의 실행을 종료한다.
+즉 Observable의 실행을 종료한다.  
+
+
 ## just() 함수
 
 
