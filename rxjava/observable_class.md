@@ -39,3 +39,33 @@ onComplete 이벤트는 단 한 번만 발생하며, 발생한 후에는 더이�
     5
     6
 ```
+</br> 
+## subscribe()함수와 Disposable객체
+
+> RxJava는 내가 동작시키기 원하는 것을 사전에 정의해둔 다음 실제 그것이 실행되는 시점을 조절할 수 있다. 이때 사용하는 것이 subscribe() 함수. Observable은 just() 등의 팩토리 함수로 데이터 흐름을 정의한 후 subscribe() 함수를 호해야 실제로 데이터를 발행한다.
+
+* subscribe() 함수는 모두 Disposable 인터페이스의 객체를 리턴한다.
+
+```java
+    void dispose()
+    booleann isDisposed()
+```
+
+* dispose()는 Observable에게 더 이상 데이터를 발행하지 않도록 구독을 해지하는 함수.  
+Observable에 따르면 Observable이 onComplete 알림을 보냈을 때 자동으로 dispose()를 호출해 구독자의 관계를 끊는다.
+
+* 따라서 onComplete 이벤트가 정상적으로 발생했다면 구독자가 별도로 dispose()를 호출할 필요가 없다. 
+
+```java
+    Observable<Strinng> source = Observable.just("RED", "GREEN", "YELLOW");
+    
+    Disposable d = source.subscribe(
+        v -> System.out.println("onNext() : value : " + v),
+        err -> System.out.println("onError() : err : " + err.getMessage()),
+        () -> System.out.println("onComplete()")
+    );
+    
+    System.out.println("isDisposed() : " + d.isDisposed());
+```
+
+
