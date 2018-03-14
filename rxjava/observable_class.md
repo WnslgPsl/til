@@ -41,6 +41,7 @@
 ```
 
 
+
 ## subscribe\(\)함수와 Disposable객체
 
 > RxJava는 내가 동작시키기 원하는 것을 사전에 정의해둔 다음 실제 그것이 실행되는 시점을 조절할 수 있다. 이때 사용하는 것이 subscribe\(\) 함수. Observable은 just\(\) 등의 팩토리 함수로 데이터 흐름을 정의한 후 subscribe\(\) 함수를 호해야 실제로 데이터를 발행한다.
