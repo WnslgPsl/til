@@ -2,6 +2,8 @@
 
 ## 이름 붙인 인자
 
+
+일반적인 java에서 함수 호출을 보면
 ```kotlin
 joinToString(collection, "", "", ".")
 ```
@@ -11,4 +13,3 @@ joinToString(collection, "", "", ".")
 ```kotlin
 joinToString(collection, separator = "", prefix = "", postfix = ".")
 ```
-daslkdf
