@@ -1,6 +1,7 @@
 # 함수를 호출하기 쉽게 만들기
 
 ## 이름 붙인 인자
+
 </br>
 
 * 일반적인 java에서 함수 호출을 보면
@@ -78,4 +79,73 @@ String joinToString(Collection<T> collection);
 
 각각의 오버로딩한 함수들은 시그니처에서 생략된 파라미터에 대해 코틀린 함수의 디폴트 파라미터 값을 사용한다.
 
+```
+
+</br>
+
+## 최상위 함수와 프로퍼티
+
+</br>
+
+### 최상위 함수
+* 자바에서는 모든 코드를 클래스의 메소드로 작성해야 한다. 코틀린에서는 이런 무의미한 클래스가 필요 없다. ( ABC.kt 라는 파일을 만들고 다음과 같이 작성)
+
+```kotlin
+pacage strings
+
+fun joinToString(...): string { ... }
+```
+
+* JVM이 클래스 안에 들어있는 코드만을 실행할 수 있기 때문에 컴파일러는 이 파일을 컴파일할 때 새로운 클래스를 정의해 준다.
+
+```java
+/* 자바 */
+pacage strings;
+
+public class abc {
+    public static String joinToString(...){...}
+}
+```
+
+* 코틀린 컴파일러가 생성하는 클래스의 이름은 최상위 함수가 들어있던 코틀린 소스파일의 이름과 같다.</br>따라서 자바에서 joinToString을 호출하기는 쉽다.
+
+```java
+/* 자바 */
+import string.ABC;
+
+...
+
+ABC.joinToString(list, ", ", "", "");
+```
+</br>
+>파일에 대응하는 클래스의 이름 변경하기
+
+```kotlin
+/* 코틀린 최상위 함수가 포함되는 클래스의 이름을 바꾸고 싶다면 @JvmName 어노테이션을 추가한다.</br>
+@JvmName 어노테이션은 파일의 맨 앞, 패키지 이름 선언 이전에 위치 */
+@file:JvmName("StringFunctions")
+pacage strings
+fun joinToString(...): String {...}
+
+/*자바*/
+import strings.StringFunctions;
+StringFunctions.joinToString(list, ", ", "", "");
+```
+</br>
+
+### 최상위 프로퍼티
+
+</br>
+
+* 함수와 마찬가지로 프로퍼티도 파일의 최상위 수준에 놓을 수 있다.
+
+```kotlin
+/* 최상위 프로퍼티를 활용해 코드에 상수를 추가할 수 있다. 하지만 게터를 사용해야 된다면 부자연스럽다. */
+val UNIX_LINE_SEPARATOR = "\n"
+
+/* const 변경자 추가 */
+const val UNIX_LINE_SEPARATOR = "\n"
+
+/* 자바 코드와 동등한 바이트코드를 만들어 낸다. */
+public static final String UNIX_LINE_SEPARATOR = "\n";
 ```

@@ -14,4 +14,5 @@
 ## Reference Data
 
 > * 차세대 안드로이드 개발자를 위한 커니의 코틀린  
+> * Kotlin In Action
 > * RxJava 프로그래밍
