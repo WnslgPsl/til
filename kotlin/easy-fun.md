@@ -149,3 +149,58 @@ const val UNIX_LINE_SEPARATOR = "\n"
 /* 자바 코드와 동등한 바이트코드를 만들어 낸다. */
 public static final String UNIX_LINE_SEPARATOR = "\n";
 ```
+
+</br>
+
+## 확장 함수와 확장 프로퍼티
+
+</br>
+
+### 확장 함수
+
+</br>
+
+* 확장 함수는 어떤 클래스의 멤버 메소드인 것 처럼 호출 할 수 있지만 그 클래스의 밖에 선언된 함수이다.
+
+```kotlin
+package strings
+
+// 여기서 lastChar() 앞의 클래스 이름을 수신객체타입(receiver type), this가 수신객체(receiver object)라고 부른다.
+fun String.lastChar(): Char = this.get(this.length - 1)
+
+pintln("Kotlin".lastChar())
+결과값 n
+```
+
+* 확장 함수 안에서는 클래스 내부에서만 사용할 수 있는 private 멤버나 protected 멤버를 사용할 수 없다.
+
+```java
+// 내부적으로 확장 함수는 수신 객체를 첫 번째 인자로 받는 정적 메소드</br>
+자바에서 사용하려면 정적 메소드를 호출하면서 첫 번째 인자로 수신 객체를 넘기면 된다.
+
+char c = StringUtilKt.lastChar("Java");
+```
+
+</br>
+
+### 확장 프로퍼티
+
+</br>
+
+* 확장 함수와 마찬가지로 확장 프로퍼티도 일반적인 프로퍼티와 같은데, 단지 수신 객체 클래스가 추가 됐을 뿐이다. 기본 게터 구현을 제공할 수 없으므로 최소한 게터는 꼭 정의 해야한다.
+
+```kotlin
+var StringBuilder.lastChar: Char
+    get() = this.get(this.length - 1)
+    set(value: Char) {
+        this.setCharAt(length - 1, value)
+    }
+    
+println("Kotlin".lastChar")
+결과값 n
+
+val sb = stringBuilder("Kotlin?")
+sb.lastChar = "!"
+println(sb)
+결과값 Kotlin!
+```
