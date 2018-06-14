@@ -14,5 +14,5 @@ fun main(args: Array<String>) {
     println(a.isLength())
 }
 
-결과값 3
+결과값 6
 ```
