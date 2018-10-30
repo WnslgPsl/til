@@ -275,8 +275,175 @@ fun verifyUserInput(input: String?) {
     }
 }
 
-fun main(args: Array) {
+fun main(args: Array<String>) {
     verifyUserInput(" ")
     verifyUserInput(null)
 }
 ```
+
+* null이 될수 있는 String? type에서는 isNullOrBlank() 또는 isNullOrEmpty() 함수를 지원합니다.
+
+* 보통 자바에서 null.isNullOrBlank()를 호출하면 NPE가 발생합니다.
+
+```kotlin
+fun String?.isNullOrBlank(): Boolean =
+    this == null || this.isBlank() // 두번째 this에는 스마트 캐스트가 적용됩니다.
+```
+
+### 6.1.10 타입 파리미터(Generic)의 널 가능성
+
+* 함수나 클래스의 모든 타입 파라미터는 기본적으로 null이 될수 있습니다.
+
+```kotlin
+fun <T> printHashCode(t: T) {
+    println(t?.hashCode())
+}
+
+fun main(args: Array<String>) {
+    printHashCode(null) // T의 타입은 "Any?"로 추론됩니다.
+}
+```
+
+* T에 ?가 붙지 않았지만 기본적으로 ?가 있습니다.
+* 함수 내부에서는 반드시 null 체크를 해야합니다.
+
+```kotlin
+fun <T: Any> printHashCode(t: T) {
+    println(t.hashCode())
+}
+
+fun main(args: Array<String>) {
+    printHashCode(null) // 컴파일 에러
+}
+```
+
+* 타입 파라미터가 null이 아님을 확실히 하려면 null이 될 수 없는 타입 상한(upper bound)를 지정해야 합니다.
+
+### 6.1.11 널 가능성과 자바 (플랫폼 타입)
+
+* 자바 타입시스템은 null 가능성을 지원하지 않습니다.
+* 자바의 @Nullable String 은 String?와 같고, 자바의 @NotNull String은 String과 같습니다.
+* 자바 대부분?의 코드에는 어노테이션이 없습니다. 이런 경우 코틀린의 플랫폼 타입이 됩니다.
+
+* 플랫폼 타입은 null처리를 해도 되고 안해도 상관없습니다.
+* 플랫폼 타입은 자동완성? 에서 String! 형태로 표현횝니다.
+![platform_type](/assets/platform_type.png)
+```java
+/* 자바 */
+public class Person {
+    private final String mName;
+    public Person(String name) {
+        mName = name;
+    }
+
+    public String getName() {
+        return mName;
+    }
+}
+```
+```kotlin
+fun yellAtSafe(person: Person) {
+    println((person.name ?: "Anyone").toUpperCase() + "!!!")
+}
+
+fun main(args: Array) {
+    yellAtSafe(Person(null))
+}
+```
+
+* 코틀린 컴파일러는 이경우 String타입의 null가능성에 대해 전혀 알지 못합니다.
+* Exception피하려면 개발자의 몫...
+
+> #### 코틀린이 왜 플랫폼 타입을 도입했는가?  
+> 모든 자바 타입을 null이 될 수 있는 타입으로 다루면 결코 널이 될 수 없는 값에 대해서도 불필요한 null검사가 들어갑니다.  
+> 자바 ArrayList<String> 을 코틀린에서 ArrayList<String?> 으로 다루면 원소에 접근할 때마다 null검사를 수행해거나 안전한 캐스트를 수행해야 합니다. 이런 식으로 처리하면 null 안전성으로 얻는 이익보다 검사에 드는 비용이 훨씬 더 커집니다. 그래서 코틀린 설계자들은 자바의 타입을 가져온 경우 개발자들에게 책임을 넘김 .....
+
+```kotlin
+// 두 선언은 모두 올바른 선언입니다.
+val s: String? = person.name
+val s1: String = person.name
+```
+
+```java
+/* 자바 */
+interface StringProcessor {
+    void process(String value);
+}
+```
+
+```kotlin
+class StringPrinter : StringProcessor {
+    override fun process(Value: String) {
+        println(value)
+    }
+}
+class NullableStringPrinter : StringProcessor {
+    override fun process(value: String?) {
+        if (value != null) {
+            println(value)
+        }
+    }
+}
+```
+
+* 구현 메소드를 다른 코틀린 코드가 호출할 수 있으므로 컴파일러는 null이 아님을 검사하는 단언문을 만들어줍니다.
+* 자바 코드에서 메소드에게 null 값을 넘기면 단언문이 발동돼 예외가 발생합니다.
+
+
+## 6.2 코틀린의 원시 타입
+
+### 6.2.1 원시 타입: Int, Boolean 등
+* 코틀린은 원시타입(primitive type)와 래퍼타입(wrapper type)을 구분하지 않습니다.
+
+```java
+int a = 1;
+List<Integer> list = new List<>();
+```
+```kotlin
+a : Int = 1
+list : List<Int> = listof(1,2,3)
+```
+
+* 코틀린은 숫자 타입등 원시 타입의 값에 대해 메소드를 호출할 수 있습니다.
+
+```kotlin
+fun showProgress(progress: Int) {
+    val percent = progress.coerceIn(0, 100)
+    println("We're ${percent}% done!")
+}
+
+fun main(args: Array) {
+    showProgress(146)
+}
+```
+
+* 컴파일 시 대부분의 경우 Int 타입은 자바 int 타입으로 컴파일 됩니다.
+* 컬렉션과 같은 제네릭 클래스를 사용하는 경우 java.lang.Integer 객체가 들어갑니다.
+* Int와 같은 코틀린 타입에는 null참조가 들어갈 수 없기 때문에 자바 원시 타입으로 컴파일할 수 있습니다. 반대로 자바 원시타입은 결코 null이 될 수 없으므로 자바 원시타입을 코틀린에서 사용할 때도(플랫폼 타입이 아니다) 널이 될 수 없는 타입으로 취급할 수 있습니다.
+
+### 6.2.2 널이 될 수 있는 원시 타입: Int?, Boolean? 등
+
+* null이 가능한 코틀린 타입은 자바의 원시타입으로 변경이 불가능합니다. 따라서 래퍼타입으로 변경됩니다. 
+
+```kotlin
+data class Person(val name: String, val age: Int? = null) {
+
+    fun isOlderThan(other: Person): Boolean? {
+        // null가능성이 있으므로 두 값이 모두 null이 아닌지 검사해야합니다.
+        if (age == null || other.age == null)
+            return null
+        return age > other.age
+    }
+}
+
+fun main(args: Array<String>) {
+    println(Person("Sam", 35).isOlderThan(Person("Amy", 42)))
+    println(Person("Sam", 35).isOlderThan(Person("Jane")))
+}
+```
+
+* age property는 null이 될 수 있으므로 컴파일되면 래퍼타입인 Integer로 변환 됩니다.
+
+### 6.2.3 숫자 변환
+
+* 
