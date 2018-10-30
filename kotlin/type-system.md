@@ -2,6 +2,11 @@
 
 # 코틀린 타입 시스템
 
+> 6장에서 다루는 내용
+> * null이 될 수 있는 타입과 null을 처리하는 구문의 문법
+> * 코틀린 원시 타입 소개와 자바 타입과 코틀린 원시 타입의 관계
+> * 코틀린 컬렉션 소개와 자바 컬렉션과 코틀린 컬렉션의 관계
+
 ## 6.1 널 가능성
 
 ### 6.1.1 null이 될수 있는 type
@@ -561,5 +566,22 @@ fun main(args: Array<String>) {
 
     copyElements(soruce, target)
     println(target)
+}
+```
+
+* 하나의 Collection을 읽기전용으로 참조할수도, 읽기쓰기전용으로 참조할 수도 있습니다. 따라서 다른코드를 호출하거나 병렬 실행한다면 ConcurrentModificationException 오류가 발생할 수 있습니다.
+* 읽기 전용 컬렉션이 항상 스레드안전 하지 않다는 점을 명심해야 합니다.
+
+```kotlin
+fun main(args: Array<String>) {
+    val list = arrayListOf(1,2,3)
+    val immutableList = list
+    val mutableList = list
+
+    mutableList.add(4)
+
+    println(immutableList.toString())
+
+    // [1,2,3,4]
 }
 ```
