@@ -446,4 +446,120 @@ fun main(args: Array<String>) {
 
 ### 6.2.3 숫자 변환
 
-* 
+* 코틀린과 자바의 가장 큰 차이점 중 하나는 숫자를 변환하는 방식입니다.
+* 코틸린은 한 타입의 숫자를다른 타입의 숫자로 자동 변환하지 않습니다.
+
+```kotlin
+val i = 1
+val l: Long = i // 컴파일 오류
+
+val i = 1
+val l: Long = i.toLong() // 직접 변환 메소드를 호출해야 합니다.
+```
+
+* Boolean을 제외한 원시타입은 toByte(), toShort(), toChar(), toLong(), toInt()등 변환함수를 제공합니다.
+
+```kotlin
+println("42".toInt()) 
+// 가능합니다. 하지만 실패하면 NumberForamtException 발생
+```
+
+### 6.2.4 Any, Any?: 최상위 타입
+
+* 자바에서 Object가 클래스 계층의 최상위 타입이듯 코틀린에서는 Any 타입이 모든 null이 될 수 없는 타입의 조상 타입입니다.
+* 자바와 다른점은 Any가 Int등의 원시 타입을 포함한 모든 타입의 조상 타입입니다.
+* 코틀린 함수가 Any를 사용하면 컴파일시 Object로 컴파일됩니다.
+
+### 6.2.5 Unit 타입: 코틀린의 void
+
+* Uint 타입은 자바의 void와 같은 역활을 합니다.
+* Unit 타입은 인자로도 사용할 수 있습니다.
+
+```kotlin
+inteface Processor<T> {
+    fun process() : T
+}
+
+class NoResultProcessor : Processor<Unit> {
+    override fun process() {
+        println("return 필요없음")
+        // 묵시적으로 return Unit을 넣어줍니다.
+        // 자바의 경우 return null을 명시해야됩니다.
+    }
+}
+```
+
+### 6.2.6 Nothing 타입: 이 함수는 결코 정상적으로 끝나지 않는다.
+
+* Nothing 타입은 정상적으로 끝나지 않는다라는걸 명시적으로 표현하는 함수입니다.
+
+```kotlin
+fun fail(message: String): Nothing {
+    throw IllegalStateException(message)
+}
+
+fun main(args: Array) {
+    fail("Error occurred")
+}
+
+>> java.lang.IllegalStateException: Error occurred
+```
+
+* Nothing을 반환하는 함수를 엘비스 연산자의 우항에 사용해서 null 체크 없이 사용하도록 해줍니다.
+
+```kotlin
+val address = company.address ?: fail("No address")
+pintln(address.city)
+```
+
+## 6.3 컬렉션과 배열
+
+### 6.3.1 널 가능성과 컬렉션
+
+* 컬렉션은 nullable을 원소 또는 자체에 사용할 수 있습니다.
+
+```kotlin
+List<Int> : list도 null이 아니고 원소에도 null이 없습니다.
+List<Int?> :list는 null이 아니지만 원소는 null일 수 있습니다.
+List<Int>? : list가 null이 될수 있으나 원소는 null이 아닙니다.
+List<Int?>? : list와 원소모두 null이 될수 있습니다.
+```
+
+* Int? 아입의 값을 사용하기 전에 null 여부를 검사해야 합니다.
+* null값을 걸러내는 경우가 자주 있어서 filterNotNull이라는 함수를 제공합니다.
+
+```kotlin
+fun addValidNumbers(numbers: List<Int?>) {
+    val validNumbers = numbers.filterNotNull()
+    println("Sum of valid numbers: ${validNumbers.sum()}")
+    println("Invalid numbers: ${numbers.size - validNumbers.size}")
+}
+
+fun main(args: Array<String>) {
+    val list = listOf(1, null, 2, null)
+    addValidNumbers(list)
+}
+```
+
+* filterNotNull이 컬렉션 안에 null이 들어있지 않음을 보장해주므로 validNumbers는 List< Int > 타입입니다.
+
+### 6.3.2 읽기 전용과 변경 가능한 컬렉션
+
+* kotlin.collections.Collection 인터페이스를 사용하면 size, iterator(), contains()등 데이터를 읽는 연산을 수행할 수 있습니다.
+* 원소를 추가하거나 제거하는 메소드는 Collection을 확장한 MutableCollection 인터페이스를 사용해야 됩니다.
+
+```kotlin
+fun<T> copyElements(source: Collection<T>, target: MutableCollection<T>) {
+    for(item in source) {
+        target.add(item)
+    }
+}
+
+fun main(args: Array<String>) {
+    val soruce: Collection<Int> = arrayListOf(3, 5, 7)
+    val target: MutableCollection<Int> = arrayListOf(1)
+
+    copyElements(soruce, target)
+    println(target)
+}
+```
