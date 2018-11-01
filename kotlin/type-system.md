@@ -183,7 +183,7 @@ fun main(args: Array<String>) {
     ignoreNulls(null)
 }
 ```
-* !!를 property에 사용하게되면 강제로 null이 아님을 보증하게 됩니다. 따라서 이후에는 property가 not null로 인식하게 됩니다.
+* !!를 property에 사용하게되면 강제로 null이 아님을 <u>**보증**</u>하게 됩니다. 따라서 이후에는 property가 not null로 인식하게 됩니다.
 
 * 자바에서 위와같은 코드는 println(sNotNull.length) 라인에서 NPE가 발생합니다.
 * kotlin에서는 val sNotNull: String = s!! 라인에서 NPE가 발생하여 좀더 명확한 위치를 잡아줍니다.
