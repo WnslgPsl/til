@@ -18,7 +18,6 @@
 public int getLen(String str) {
     return str.lengh();
 }
-
 // 컴파일시에는 문제가 없지만 런타임에서 NPE발생
 getlen(null);
 ```
@@ -554,7 +553,7 @@ fun main(args: Array<String>) {
 * 원소를 추가하거나 제거하는 메소드는 Collection을 확장한 MutableCollection 인터페이스를 사용해야 됩니다.
 
 ```kotlin
-fun<T> copyElements(source: Collection<T>, target: MutableCollection<T>) {
+fun <T> copyElements(source: Collection<T>, target: MutableCollection<T>) {
     for(item in source) {
         target.add(item)
     }
@@ -575,11 +574,110 @@ fun main(args: Array<String>) {
 ```kotlin
 fun main(args: Array<String>) {
     val list = arrayListOf(1,2,3)
-    val immutableList = list
-    val mutableList = list
 
+    val immutableList:List<Int> = list
+    val mutableList:MutableList<Int> = list
+
+//    immutableList.add(4) 컴파일 에러
     mutableList.add(4)
 
     println(immutableList.toString())
+    // [1,2,3,4]
 }
 ```
+
+### 6.3.3 코틀린 컬렉션과 자바
+
+* 코틀린은 모든 자바컬렉션 인터페이스마다 읽기 전용 인터페이스와 변경 가능한 인터페이스라는 두가지표현을 제공합니다.
+
+> #### 읽기전용
+> * listOf, setOf, mapOf
+> #### 변경 가능
+> * mutableListOf, arrayListOf, mutableSetOf, mutableMapOf 등등
+
+* setOf와 mapOf는 자바 표준 라이브러리에 속한 클래스의 인스턴스를 반환합니다. 내부에서 변경이 가능한 클랙스 입니다. (라고 책에 되어있지만, 현재는 kotlin collection을 반환합니다. 찾아본 결과 1.2.x 버전부터 바뀐거 같습니다.)
+
+* 자바 메소드를 호출하면서 컬렉션을 인자로 넘겨야 된다면 아무 collection이나 mutableCollection값을 인자로 넘길 수 있습니다.
+> 이때 중요한 문제가 생기는데 자바는 읽기전용과 변경 가능을 구분하지 않으므로, 코틀린 읽기 전용 컬렉션으로 선언된 객체라도 자바 코드에서는 변경 할 수 있습니다.
+
+```java
+public class CollectionUtils {
+
+   public static List<String> uppercaseAll(List<String> items) {
+       for (int i = 0; i< items.size(); i++){
+           items.set(i, items.get(i).toUpperCase());
+       }
+       return items;
+   }
+}
+```
+```kotlin
+fun printInUppercase(list: List<String>) {
+    println(CollectionUtils.uppercaseAll(list))
+    println(list.first())
+}
+
+fun main(args: Array<String>) {
+    val list = listOf("a", "b", "c")
+    printInUppercase(list)
+}
+
+// [A,B,C]
+// A
+```
+
+> 변경 불가능한 컬렉션 타입을 넘겨도 자바 쪽에서 내용을 변경할 수 있습니다. 따라서 자바쪽에서 컬렉션을 변경할 여지가 있다면 아예 코틀린 쪽에서 변경 가능한 컬렉션을 사용해서 내용이 변경될 수 있음을 코드에 남겨둬야 합니다.
+
+### 6.3.4 컬렉션을 플랫폼 타입으로 다루기
+
+* 코틀린에서 자바에 정의된 컬렉션 사용시 플랫폼 타입으로 표현됩니다. 따라서 사용 용도에 맞게 변경 불가능 컬렉션일지 변경 가능한 컬렉션 일지 정의하면 됩니다.
+* 자바의 컬랙션타입이 인자로 들어간 자바 메소드를 구현할 오버라이드할 경우 플랫폼 타입에서 널 가능성을 다룰 때처럼 어떤 코틀린 타입으로 표현할지 결정해야 합니다.
+(변경가능한 컬렉션인지, null이 가능한 컬렉션 인지))
+
+### 6.3.5
+
+* 이미 배열은 main함수에서 보았습니다.
+
+```kotlin
+fun main(args: Array<String>) {
+    // indices 배열의 인덱스값을 사용하기 위해 사용(확장함수?확장프로퍼티?)
+    for(i in args.indices){ 
+        println("Argument $i is: ${args[i]}")
+    }
+}
+```
+
+* 코틀린 배열은 타입 파라미터(제너릭)를 받는 클래스 입니다 (중요합니다.)
+* 배열을 만드는 방법
+    * arrayOf(1, 2)
+    * arrayOfNulls(n) : n만큼 null을 넣어 배열 생성
+    * Array(n, lambda): n만큼 주어진 배열에 람다를 이용해서 배열 생성
+
+```kotlin
+fun main(args: Array<String>) {
+    // 람다 뺌
+    val letters = Array(26) { i -> ('a' + i).toString() }
+    println(letters.joinToString(""))
+}
+// abcdef~
+```
+
+* 컬렉션을 배열로 변환 할때는 toTypedArray()
+
+* 다른 제네릭 타입처럼 배열 타입의 인자도 항상 객체 타입이 됩니다. 따라서 Array< Int >같이 선언하면 배열은 박싱된 정수(자바의 Integer[])의 배열이 됩니다.
+* 각각의 원시 타입의 배열을 사용하려면 IntArray, ByteArray등과 같이 특별한 배열 클래스를 사용해야 됩니다.
+
+```kotlin
+fun main(args: Array<String>) {
+    // size 인자를 받아서 해당 원시 타입의 디폴트 값으로 초기화 됩니다.
+    val fiveZeros = IntArray(5)
+    // 여러 값을 가변 인자로 받아서 값이 들어간 배열을 반환합니다.
+    val fiveZerosTwo = intArrayOf(1, 2, 3, 4, 5)
+    // 크기와 람다를 인자로 받는 생성자를 사용합니다.
+    val squares = IntArray(5) {i -> ((i+1) * (i+1))}
+}
+```
+
+* 박싱된 값이 들어있는 컬렉션이나 배열이 있다면 toIntArray 등의 변환 함수를 사용해 박싱하지 않은 값이 들어있는 배열로 변환할 수 있습니다. (내부에서 IntArray 배열에 값을 박아줍니다.)
+* 컬렉션에 사용할 수 있는 모든 확장 함수를 배열에도 제공합니다. 5장에서 살펴본 filter, map 등을 사용할 수 있습니다. 다만 이런 함수가 반환하는 값은 배열이 아니라 list 입니다.)  
+// 확인해보니 배열로 반환되는거 같습니다. 확인필요
