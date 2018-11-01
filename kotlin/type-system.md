@@ -581,7 +581,5 @@ fun main(args: Array<String>) {
     mutableList.add(4)
 
     println(immutableList.toString())
-
-    // [1,2,3,4]
 }
 ```
