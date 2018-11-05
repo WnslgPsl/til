@@ -43,7 +43,7 @@ fun main(args: Array<String>) {
 }
 ```
 
-### 6.1.3 null safe operator
+### 6.1.3 안전한 호출연산자: ?.
 
 * Kotlin은 null을 안전하게 처리하기위해 ?. 연산자를 제공합니다.
 
@@ -96,7 +96,7 @@ fun main(args: Array<String>) {
 }
 ```
 
-### 6.1.4 elvis operator
+### 6.1.4 엘비스 연산자(elvis operator): ?:
 
 * ?. 연산자는 null이 입력되면 null을 반환합니다. 필요에 따라서 null일 경우 default값을 지정해야되는 경우도 있습니다. 이때 ?: 사용하여 편리하게 처리할 수 있습니다.
 
@@ -141,7 +141,7 @@ fun main(args: Array<String>) {
 
 * ?.을 연속적으로 사용하고 마지막에 ?: 사용할 경우 어디서 null이 발생했는지 확인하기 어렵습니다. 각 ?. 별로 default 값을 다르게 표기하고 싶으면 ?.을 따로 분리하여 사용해야 합니다.
 
-#### 6.1.5 safe cast
+#### 6.1.5 안전한 캐스트: as?
 
 * 스마트 캐스트인 is 를 사용하면 as를 사용하지 않고도 type을 변환할 수 있습니다.
 하지만 as를 바로 사용하여 casting 할때 type이 맞지 않으면 ClassCastException이 발생합니다.
@@ -169,7 +169,7 @@ fun main(args: Array<String>) {
 }
 ```
 
-### 6.1.6 강제 not null 처리
+### 6.1.6 널 아님 단언: !!
 
 * property를 nullable로 설정하면 사용할때마다 null처리를 해야합니다. 실제로 절대로 null이 들어갈 수 없는 경우도 있습니다. 하지만 컴파일러는 모르기 때문에 계속 null 처리를 진행 해야합니다.
 
